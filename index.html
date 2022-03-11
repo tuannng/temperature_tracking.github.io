@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIỂM SOÁT NHIỆT ĐỘ</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="./assets/fonts/themify-icons/themify-icons.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
+  <link rel="icon"
+    href="https://upload.wikimedia.org/wikipedia/vi/thumb/6/6c/Logo_Dai_hoc_Can_Tho.svg/1024px-Logo_Dai_hoc_Can_Tho.svg.png">
+    <meta http-equiv="refresh" content="300">
+</head>
+<body>
+  <div id="main">
+    <!--Cảnh báo trạm 1  -->
+    <div class="warning1" id="isActive1">
+      <div class="warning_inner1">
+        <div class="warning_header1">
+          <p>Cảnh báo</p>
+          <i class="fas fa-times" onclick="close_warning1();"></i>
+        </div>
+        <div class="warning_body1">
+          <h2>Trạm1</h2>
+          <p>Đang bị quá nhiệt</p>
+        </div>
+        <div class="warning_footer1">
+          <button onclick="close_warning1();">Đóng</button>
+        </div>
+      </div>
+    </div>
+    <!--end  -->
+    <!-- Cảnh báo trạm 2  -->
+    <div class="warning2" id="isActive2">
+      <div class="warning_inner2">
+        <div class="warning_header2">
+          <p>Cảnh báo</p>
+          <i class="fas fa-times" onclick="close_warning2();"></i>
+        </div>
+        <div class="warning_body2">
+          <h2>Trạm2</h2>
+          <p>Đang bị quá nhiệt</p>
+        </div>
+        <div class="warning_footer2">
+          <button onclick="close_warning2();">Đóng</button>
+        </div>
+      </div>
+    </div>
+    <!--end  -->
+    <!--Cảnh báo trạm 3  -->
+    <div class="warning3" id="isActive3">
+      <div class="warning_inner3">
+        <div class="warning_header3">
+          <p>Cảnh báo</p>
+          <i class="fas fa-times" onclick="close_warning3();"></i>
+        </div>
+        <div class="warning_body3">
+          <h2>Trạm3</h2>
+          <p>Đang bị quá nhiệt</p>
+        </div>
+        <div class="warning_footer3">
+          <button onclick="close_warning3();">Đóng</button>
+        </div>
+      </div>
+    </div>
+    <!--end  -->
+    <!--Begin Header  -->
+    <div id="wrapper">
+
+      <div id="main_menu">
+        <li> <a href="index.html">HỆ THỐNG GIÁM SÁT VÀ CẢNH BÁO QUÁ NHIỆT MÁY BIẾN ÁP LỰC </a></li>
+      </div>
+    </div>
+    <!-- End Header -->
+
+    <!-- Map -->
+    <div class="content-name">
+
+      <div id="content">
+        <div id="infor">
+          <div class="map-content">
+            <p class="map-name">Bản đồ trạm đo</p>
+            <div id="map"></div>
+
+            <script src="map.js">
+
+            </script>
+          </div>
+          <!-- Begin Table -->
+          <div class="table1">Thống kê
+            <select class="form-control" onchange="fn_change()" id="list-tram">
+              <option value="" selected disabled>Chọn trạm...</option>
+              <option value="tram1">Trạm 1</option>
+              <option value="tram2">Trạm 2</option>
+              <option value="tram3">Trạm 3</option>
+            </select>
+            <div>
+              <div class="row-1 font-18">
+                <p class="text-bold">Hiện tại</p>
+                <p class="table-line"></p>
+                <p id="hien-tai"></p>
+                <p id="time-hien-tai"></p>
+              </div>
+              <div class="row-2 font-18">
+                <p class="text-bold">Cao nhất</p>
+                <p class="table-line"></p>
+                <p id="max"></p>
+                <p id="time-max"></p>
+              </div>
+              <div class="row-3 font-18">
+                <p class="text-bold">Thấp nhất</p>
+                <p class="table-line"></p>
+                <p id="min"></p>
+                <p id="time-min"></p>
+              </div>
+              <div class="row-4 font-18">
+                <p class="text-bold">Trung bình</p>
+                <p class="table-line"></p>
+                <p id="average"></p>
+                <p id="time-average"></p>
+              </div>
+            </div>
+          </div>
+          <script src="thongke.js"></script>
+        </div>
+
+
+
+        <!-- Begin chart -->
+        <div id="mini-chart">
+          <div class="chart">
+            <div class="chart-box">
+              <a class="chart-name" href="tram1.html">Trạm 1</a>
+              <div>
+                <canvas id="chart-1"></canvas>
+              </div>
+            </div>
+            <div class="chart-box">
+              <a class="chart-name" href="tram2.html">Trạm 2</a>
+              <div>
+                <canvas id="chart-2"></canvas>
+              </div>
+            </div>
+            <div class="chart-box">
+              <a class="chart-name" href="tram3.html">Trạm 3</a>
+              <div>
+                <canvas id="chart-3"></canvas>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <div id="footer">
+      <img class="footer-img" src="./assets/images/logo_ctu/1024px-Logo_Dai_hoc_Can_Tho.svg.png" alt="">
+      <div class="info">
+        <p class="footer-header">Trường ĐH Cần Thơ - Khoa Công Nghệ - Bộ môn Tự động hóa</p>
+        <p class="footer-content">LVTN - Hệ thống giám sát và cảnh báo quá nhiệt máy biến áp lực dựa trên nền tảng AWS
+          IoT Core</p>
+        <div class="footer-sub">
+          <p>Sinh viên thực hiện: Nguyễn Trí Lộc - B1709088 & Nguyễn Đức Toàn - B1709120</p>
+          <p>Giảng viên hướng dẫn: TS. Nguyễn Văn Khanh</p>
+        </div>
+      </div>
+
+      <div class="contact">
+        <i class="ti-info-alt"></i>
+        <p class="contact-header">Thông tin liên hệ</p>
+        <div class="contact-mail">
+          <i class="ti-email"></i>
+          <p>Email: loc9t1@gmail.com</p>
+        </div>
+        <div class="contact-phone">
+          <i class="ti-mobile"></i>
+          <p>SĐT: (+84) 865 049 491</p>
+        </div>
+      </div>
+    </div>
+    <script defer src="https://api.map4d.vn/sdk/map/js?version=1.6.0&key=38445a500dacc4418a81f0d62669f7a2&callback=CALLBACK_FUNCTION"></script>
+    <script src="https://api.map4d.vn/sdk/map/js?version=1.6.0&key=38445a500dacc4418a81f0d62669f7a2&callback=initMap"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <script src="chart1.js"></script>
+    <script src="chart2.js"></script>
+    <script src="chart3.js"></script>
+    <script src="canhbaotram1.js"></script>
+    <script src="canhbaotram2.js"></script>
+    <script src="canhbaotram3.js"></script>
+</body>
+
+</html>
