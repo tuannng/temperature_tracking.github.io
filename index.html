@@ -1,194 +1,123 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KIỂM SOÁT NHIỆT ĐỘ</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="./assets/fonts/themify-icons/themify-icons.css">
-  <link rel="stylesheet" href="style.css">
-  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
-  <link rel="icon"
-    href="https://upload.wikimedia.org/wikipedia/vi/thumb/6/6c/Logo_Dai_hoc_Can_Tho.svg/1024px-Logo_Dai_hoc_Can_Tho.svg.png">
-    <meta http-equiv="refresh" content="300">
+    <title>Hệ thống cảnh báo quá nhiệt máy biến áp lực</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
+    <script
+        src="https://api.map4d.vn/sdk/map/js?version=1.6.0&key=38445a500dacc4418a81f0d62669f7a2&callback=initMap"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <div id="main">
-    <!--Cảnh báo trạm 1  -->
-    <div class="warning1" id="isActive1">
-      <div class="warning_inner1">
-        <div class="warning_header1">
-          <p>Cảnh báo</p>
-          <i class="fas fa-times" onclick="close_warning1();"></i>
-        </div>
-        <div class="warning_body1">
-          <h2>Trạm1</h2>
-          <p>Đang bị quá nhiệt</p>
-        </div>
-        <div class="warning_footer1">
-          <button onclick="close_warning1();">Đóng</button>
-        </div>
-      </div>
+    <div class="header">
+        <h5><b>BỘ LAO ĐỘNG THƯƠNG BINH VÀ XÃ HỘI</b></h5>
+        <h5><b>TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT VĨNH LONG</b></h5>
+        <img src="./img/logo.png" alt="alternatetext" style="width:70px;height:70px;">
+        <h3><b>LUẬN VĂN THẠC SĨ - KỸ THUẬT ĐIỆN ( KHÓA 3)</b></h3>
+        <h1>MỘT GIẢI PHÁP CẢNH BÁO TÌNH TRẠNG QUÁ NHIỆT MÁY BIẾN ÁP LỰC</h1>
+        <p><b>Cán bộ hướng dẫn:</b> TS. Nguyễn Văn Khanh</p>
+        <p><b>Học viên:</b> KS.Trần Quang Vinh</p>
     </div>
-    <!--end  -->
-    <!-- Cảnh báo trạm 2  -->
-    <div class="warning2" id="isActive2">
-      <div class="warning_inner2">
-        <div class="warning_header2">
-          <p>Cảnh báo</p>
-          <i class="fas fa-times" onclick="close_warning2();"></i>
-        </div>
-        <div class="warning_body2">
-          <h2>Trạm2</h2>
-          <p>Đang bị quá nhiệt</p>
-        </div>
-        <div class="warning_footer2">
-          <button onclick="close_warning2();">Đóng</button>
-        </div>
-      </div>
+
+    <div class="navbar">
+        <a href="#" class="active">
+            <h4>Trang chủ</h4>
+        </a>
+        <a href="#" class="hover" style="width: 35%;">
+            <h4 id="date_time"></h4>
+        </a>
+        <a href="#" class="hover">
+            <h4 id="notification">[Thông báo]: Hệ thống hoạt động bình thường</h4>
+        </a>
+        <a href="#" class="right">
+            <h4>Mã số: 22003040</h4>
+        </a>
     </div>
-    <!--end  -->
-    <!--Cảnh báo trạm 3  -->
-    <div class="warning3" id="isActive3">
-      <div class="warning_inner3">
-        <div class="warning_header3">
-          <p>Cảnh báo</p>
-          <i class="fas fa-times" onclick="close_warning3();"></i>
+
+    <div class="row">
+        <div class="side">
+            <h2>Tổng quan</h2>
+            <p style="text-align: justify;text-indent: 30px;"></p>
+            </p>
+            </i></p>
+            <h4><b>Định vị hệ thống giám sát</b></h4>
+            <p>
+                <b>Trạm số 1: </b>Thành phố Bạc Liêu<br>
+                <b>Trạm số 2: </b>Thành phố Bạc Liêu<br>
+                <b>Trạm số 3: </b>Thành phố Bạc Liêu<br>
+            </p>
+            <div id="map" style="width: 100%; height: 250px; border: solid 1px black;"></div>
+            <br>
+            <h4>Thông tin hệ thống</h4>
+            <p style="text-align: justify;text-indent: 30px;">Máy biến áp là một thiết bị quan trọng trong ngành điện
+                nói chung và việc truyền tải điện năng nói riêng.</p>
+            <p style="text-align: justify;text-indent: 30px;">
+                Mục tiêu đề tài là thiết kế một hệ thống IoTs (Internet of Things)
+                có thể phát hiện sự cố xảy ra trên các máy biến áp lực dựa vào nhiệt độ hoạt động trên thân máy.
+                Để xây dụng hệ thống, trước tiên, một thiết bị đo nhiệt độ thân máy được thiết kế sử dụng cảm biến nhiệt
+                độ hồng ngoại
+                không tiếp xúc. Sau đó tiến hành thực nghiệm thu thập dữ liệu nhiệt độ thân máy và nhiệt độ hoạt động
+                của máy biến áp
+                để xây dựng phương trình tương quan giữa nhiệt độ thân máy và nhiệt độ thực tế máy biến áp. Từ phương
+                trình này giúp xác
+                định nhiệt độ máy biến áp thông qua nhiệt độ thân máy. </p>
+            <p style="text-align: justify;text-indent: 30px;">
+                Kế đến sử dụng dịch vụ AWS IoT Core của Amazon để
+                kết nối các thiết
+                bị đo và lưu trữ dữ liệu đo. Sau cùng là phát triển một ứng dụng web để giám sát và cảnh báo sự cố của
+                các máy biến áp.
+                Các kết quả thực nghiệm cho thấy thiết bị đo nhiệt độ có thể đo được nhiệt độ máy biến áp dựa trên nhiệt
+                độ của thân máy
+                với sai số 0,53%, ứng dụng web đã có thể giám sát nhiệt độ của các máy biến áp theo thời gian thực và
+                thực hiện cảnh báo
+                khi có sự cố xảy ra.<br>
         </div>
-        <div class="warning_body3">
-          <h2>Trạm3</h2>
-          <p>Đang bị quá nhiệt</p>
+        <div class="main">
+            <h2>Dữ liệu quan trắc thời gian thực</h2>
+            <h3 id='station1'>Trạm số 1</h3>
+            <canvas id="chart1" style="width: 100%; height: 250px;"></canvas>
+            <p style="text-align: justify; text-indent: 30px;">
+            </p><br>
+            <h3 id='station2'>Trạm số 2</h3>
+            <canvas id="chart2" style="width: 100%; height: 250px;"></canvas>
+            <p style="text-align: justify; text-indent: 30px;">
+            </p><br>
+            <h3 id='station3'>Trạm số 3</h3>
+            <canvas id="chart3" style="width: 100%; height: 250px;"></canvas>
+            <p style="text-align: justify; text-indent: 30px;">
+            </p><br>
+
         </div>
-        <div class="warning_footer3">
-          <button onclick="close_warning3();">Đóng</button>
-        </div>
-      </div>
     </div>
-    <!--end  -->
-    <!--Begin Header  -->
-    <div id="wrapper">
-
-      <div id="main_menu">
-        <li> <a href="index.html">HỆ THỐNG GIÁM SÁT VÀ CẢNH BÁO QUÁ NHIỆT MÁY BIẾN ÁP LỰC </a></li>
-      </div>
-    </div>
-    <!-- End Header -->
-
-    <!-- Map -->
-    <div class="content-name">
-
-      <div id="content">
-        <div id="infor">
-          <div class="map-content">
-            <p class="map-name">Bản đồ trạm đo</p>
-            <div id="map"></div>
-
-            <script src="map.js">
-
-            </script>
-          </div>
-          <!-- Begin Table -->
-          <div class="table1">Thống kê
-            <select class="form-control" onchange="fn_change()" id="list-tram">
-              <option value="" selected disabled>Chọn trạm...</option>
-              <option value="tram1">Trạm 1</option>
-              <option value="tram2">Trạm 2</option>
-              <option value="tram3">Trạm 3</option>
-            </select>
-            <div>
-              <div class="row-1 font-18">
-                <p class="text-bold">Hiện tại</p>
-                <p class="table-line"></p>
-                <p id="hien-tai"></p>
-                <p id="time-hien-tai"></p>
-              </div>
-              <div class="row-2 font-18">
-                <p class="text-bold">Cao nhất</p>
-                <p class="table-line"></p>
-                <p id="max"></p>
-                <p id="time-max"></p>
-              </div>
-              <div class="row-3 font-18">
-                <p class="text-bold">Thấp nhất</p>
-                <p class="table-line"></p>
-                <p id="min"></p>
-                <p id="time-min"></p>
-              </div>
-              <div class="row-4 font-18">
-                <p class="text-bold">Trung bình</p>
-                <p class="table-line"></p>
-                <p id="average"></p>
-                <p id="time-average"></p>
-              </div>
-            </div>
-          </div>
-          <script src="thongke.js"></script>
-        </div>
-
-
-
-        <!-- Begin chart -->
-        <div id="mini-chart">
-          <div class="chart">
-            <div class="chart-box">
-              <a class="chart-name" href="tram1.html">Trạm 1</a>
-              <div>
-                <canvas id="chart-1"></canvas>
-              </div>
-            </div>
-            <div class="chart-box">
-              <a class="chart-name" href="tram2.html">Trạm 2</a>
-              <div>
-                <canvas id="chart-2"></canvas>
-              </div>
-            </div>
-            <div class="chart-box">
-              <a class="chart-name" href="tram3.html">Trạm 3</a>
-              <div>
-                <canvas id="chart-3"></canvas>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
+    <div class="footer">
+        <h2>ĐẠI HỌC SƯ PHẠM KỸ THUẬT VĨNH LONG</h2>
+        <p><i><b>Thực hiện đề tài: </b> KS.Trần Quang Vinh <b>Email:</b>vinhtranpcbl@gmail.com <b>Điện thoại:</b>0919
+                110979</i></p>
 
     </div>
-    <div id="footer">
-      <img class="footer-img" src="./assets/images/logo_ctu/1024px-Logo_Dai_hoc_Can_Tho.svg.png" alt="">
-      <div class="info">
-        <p class="footer-header">Trường ĐH Cần Thơ - Khoa Công Nghệ - Bộ môn Tự động hóa</p>
-        <p class="footer-content">LVTN - Hệ thống giám sát và cảnh báo quá nhiệt máy biến áp lực dựa trên nền tảng AWS
-          IoT Core</p>
-        <div class="footer-sub">
-          <p>Sinh viên thực hiện: Nguyễn Trí Lộc - B1709088 & Nguyễn Đức Toàn - B1709120</p>
-          <p>Giảng viên hướng dẫn: TS. Nguyễn Văn Khanh</p>
-        </div>
-      </div>
-
-      <div class="contact">
-        <i class="ti-info-alt"></i>
-        <p class="contact-header">Thông tin liên hệ</p>
-        <div class="contact-mail">
-          <i class="ti-email"></i>
-          <p>Email: loc9t1@gmail.com</p>
-        </div>
-        <div class="contact-phone">
-          <i class="ti-mobile"></i>
-          <p>SĐT: (+84) 865 049 491</p>
-        </div>
-      </div>
-    </div>
-    <script defer src="https://api.map4d.vn/sdk/map/js?version=1.6.0&key=38445a500dacc4418a81f0d62669f7a2&callback=CALLBACK_FUNCTION"></script>
-    <script src="https://api.map4d.vn/sdk/map/js?version=1.6.0&key=38445a500dacc4418a81f0d62669f7a2&callback=initMap"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-    <script src="chart1.js"></script>
-    <script src="chart2.js"></script>
-    <script src="chart3.js"></script>
-    <script src="canhbaotram1.js"></script>
-    <script src="canhbaotram2.js"></script>
-    <script src="canhbaotram3.js"></script>
 </body>
+<script src="map.js"></script>
+<script src="script.js"></script>
+<script>
+
+    
+
+    initChart(1, chart1);
+    initChart(2, chart2);
+    initChart(3, chart3);
+
+    updateDateTime();
+    updateNotification('[Thông báo]: Hệ thống hoạt động bình thường');
+    
+    var loop = setInterval(function () {
+
+        updateDateTime();
+    }, 5000);
+</script>
 
 </html>
